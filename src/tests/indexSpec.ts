@@ -15,8 +15,11 @@ describe('functionality test', () => {
     it('get/images end point', async () => {
         const res = req.get('/api/images?filename=fjord&width=200&height=300')
 
-        const data = await fs.readFileSync(`./assets/thumb/fjordw200h300.jpg`, { encoding: 'base64' })
-
-        expect((await res).body).toBe(data)
+        fs.readFile(`./assets/thumb/fjordw200h300output.jpg`, async function (data: unknown) {
+            const datat = data
+            console.log(datat)
+            console.log((await res).body)
+            expect((await res).body).toBe(datat)
+        })
     })
 })

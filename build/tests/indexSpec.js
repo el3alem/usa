@@ -62,20 +62,31 @@ describe('test end point', function () {
 });
 describe('functionality test', function () {
     it('get/images end point', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var res, data, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    res = req.get('/api/images?filename=fjord&width=200&height=300');
-                    return [4 /*yield*/, fs_1.default.readFileSync("./assets/thumb/fjordw200h300.jpg", { encoding: 'base64' })];
-                case 1:
-                    data = _b.sent();
-                    _a = expect;
-                    return [4 /*yield*/, res];
-                case 2:
-                    _a.apply(void 0, [(_b.sent()).body]).toBe(data);
-                    return [2 /*return*/];
-            }
+        var res;
+        return __generator(this, function (_a) {
+            res = req.get('/api/images?filename=fjord&width=200&height=300');
+            fs_1.default.readFile("./assets/thumb/fjordw200h300output.jpg", function (data) {
+                return __awaiter(this, void 0, void 0, function () {
+                    var datat, _a, _b, _c;
+                    return __generator(this, function (_d) {
+                        switch (_d.label) {
+                            case 0:
+                                datat = data;
+                                console.log(datat);
+                                _b = (_a = console).log;
+                                return [4 /*yield*/, res];
+                            case 1:
+                                _b.apply(_a, [(_d.sent()).body]);
+                                _c = expect;
+                                return [4 /*yield*/, res];
+                            case 2:
+                                _c.apply(void 0, [(_d.sent()).body]).toBe(datat);
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            });
+            return [2 /*return*/];
         });
     }); });
 });

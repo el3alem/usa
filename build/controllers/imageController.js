@@ -54,12 +54,12 @@ var resize = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                 width = parseInt(String(query.width));
                 height = parseInt(String(query.height));
                 found = fs_1.default.existsSync("./assets/thumb/".concat(query.filename, "w").concat(query.width, "h").concat(query.height, "output.jpg"));
-                console.log(found);
                 if (!found) return [3 /*break*/, 2];
                 return [4 /*yield*/, fs_1.default.readFile("./assets/thumb/".concat(req.query.filename, "w").concat(req.query.width, "h").concat(req.query.height, "output.jpg"), function (err, data) {
                         if (err)
                             res.status(400).send(err);
                         res.set({ 'Content-Type': 'image/png' });
+                        console.log(data);
                         res.end(data);
                     })];
             case 1:

@@ -18,6 +18,7 @@ const resize = async (req: express.Request, res: express.Response, next: express
                 function (err: unknown, data: unknown) {
                     if (err) res.status(400).send(err)
                     res.set({ 'Content-Type': 'image/png' })
+                    console.log(data)
                     res.end(data)
                 }
             )
