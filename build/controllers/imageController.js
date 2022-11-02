@@ -45,26 +45,39 @@ exports.formated = exports.resize = void 0;
 var fs_1 = __importDefault(require("fs"));
 var sharp_1 = __importDefault(require("sharp"));
 var resize = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, width, height, error_1;
+    var query, width, height, found, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 5, , 6]);
                 query = req.query;
                 width = parseInt(String(query.width));
                 height = parseInt(String(query.height));
-                return [4 /*yield*/, (0, sharp_1.default)("./assets/full/".concat(query.filename, ".jpg"))
-                        .resize(width, height)
-                        .toFile("./assets/thumb/".concat(query.filename, "w").concat(query.width, "h").concat(query.height, "output.jpg"))];
+                found = fs_1.default.existsSync("./assets/thumb/".concat(query.filename, "w").concat(query.width, "h").concat(query.height, "output.jpg"));
+                console.log(found);
+                if (!found) return [3 /*break*/, 2];
+                return [4 /*yield*/, fs_1.default.readFile("./assets/thumb/".concat(req.query.filename, "w").concat(req.query.width, "h").concat(req.query.height, "output.jpg"), function (err, data) {
+                        if (err)
+                            res.status(400).send(err);
+                        res.set({ 'Content-Type': 'image/png' });
+                        res.end(data);
+                    })];
             case 1:
                 _a.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, (0, sharp_1.default)("./assets/full/".concat(query.filename, ".jpg"))
+                    .resize(width, height)
+                    .toFile("./assets/thumb/".concat(query.filename, "w").concat(query.width, "h").concat(query.height, "output.jpg"))];
+            case 3:
+                _a.sent();
                 next();
-                return [3 /*break*/, 3];
-            case 2:
+                _a.label = 4;
+            case 4: return [3 /*break*/, 6];
+            case 5:
                 error_1 = _a.sent();
-                res.status(404).send("image not found");
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                res.status(404).send('image not found');
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
