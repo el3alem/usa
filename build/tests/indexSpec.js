@@ -42,7 +42,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-unused-vars */
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = require("../index");
+var imageController_1 = require("../controllers/imageController");
 var fs_1 = __importDefault(require("fs"));
+var image_size_1 = __importDefault(require("image-size"));
 var req = (0, supertest_1.default)(index_1.app);
 describe('test end point', function () {
     it('get/images end point', function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -67,26 +69,39 @@ describe('functionality test', function () {
             res = req.get('/api/images?filename=fjord&width=200&height=300');
             fs_1.default.readFile("./assets/thumb/fjordw200h300output.jpg", function (data) {
                 return __awaiter(this, void 0, void 0, function () {
-                    var datat, _a, _b, _c;
-                    return __generator(this, function (_d) {
-                        switch (_d.label) {
+                    var datat, _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
                             case 0:
                                 datat = data;
-                                console.log(datat);
-                                _b = (_a = console).log;
+                                _a = expect;
                                 return [4 /*yield*/, res];
                             case 1:
-                                _b.apply(_a, [(_d.sent()).body]);
-                                _c = expect;
-                                return [4 /*yield*/, res];
-                            case 2:
-                                _c.apply(void 0, [(_d.sent()).body]).toBe(datat);
+                                _a.apply(void 0, [(_b.sent()).body]).toBe(datat);
                                 return [2 /*return*/];
                         }
                     });
                 });
             });
             return [2 /*return*/];
+        });
+    }); });
+    it('check if image is resized properly', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var dimension;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, imageController_1.sharper)('encenadaport', 200, 250)];
+                case 1:
+                    _a.sent();
+                    setTimeout(function () {
+                        console.log('hi');
+                    }, 5000);
+                    dimension = (0, image_size_1.default)("./assets/thumb/encenadaportw200h250output.jpg").width;
+                    if (dimension !== undefined) {
+                        expect(dimension).toBe(200);
+                    }
+                    return [2 /*return*/];
+            }
         });
     }); });
 });

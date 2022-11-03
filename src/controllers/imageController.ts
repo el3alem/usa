@@ -4,7 +4,11 @@ import fs from 'fs'
 import express from 'express'
 
 import sharp from 'sharp'
-
+function sharper(imageName: string, imageWidth: number, imageHeight: number) {
+    sharp(`./assets/full/${imageName}.jpg`)
+        .resize(imageWidth, imageHeight)
+        .toFile(`./assets/thumb/${imageName}w${imageWidth}h${imageHeight}output.jpg`)
+}
 const resize = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const query = req.query
@@ -23,9 +27,7 @@ const resize = async (req: express.Request, res: express.Response, next: express
                 }
             )
         } else {
-            await sharp(`./assets/full/${query.filename}.jpg`)
-                .resize(width, height)
-                .toFile(`./assets/thumb/${query.filename}w${query.width}h${query.height}output.jpg`)
+            await sharper(String(query), width, height)
             next()
         }
     } catch (error) {
@@ -44,7 +46,7 @@ const formated = async (req: express.Request, res: express.Response, next: expre
     next()
 }
 
-export { resize, formated }
+export { resize, formated, sharper }
 // const converter=(req:express.Request,res:express.Response)=>{
 //     res.send("converting");
 //   csv()

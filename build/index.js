@@ -8,7 +8,7 @@ var express_1 = __importDefault(require("express"));
 var imageRoute_1 = require("./Routes/imageRoute");
 var app = (0, express_1.default)();
 exports.app = app;
-var port = 3000;
+var port = 8080;
 app.get('/', function (req, res) {
     res.send('home page');
 });

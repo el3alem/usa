@@ -39,11 +39,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formated = exports.resize = void 0;
+exports.sharper = exports.formated = exports.resize = void 0;
 //import csv from 'csvtojson';
 // import { promises as fspromises } from "fs";
 var fs_1 = __importDefault(require("fs"));
 var sharp_1 = __importDefault(require("sharp"));
+function sharper(imageName, imageWidth, imageHeight) {
+    (0, sharp_1.default)("./assets/full/".concat(imageName, ".jpg"))
+        .resize(imageWidth, imageHeight)
+        .toFile("./assets/thumb/".concat(imageName, "w").concat(imageWidth, "h").concat(imageHeight, "output.jpg"));
+}
+exports.sharper = sharper;
 var resize = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var query, width, height, found, error_1;
     return __generator(this, function (_a) {
@@ -65,9 +71,7 @@ var resize = function (req, res, next) { return __awaiter(void 0, void 0, void 0
             case 1:
                 _a.sent();
                 return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, (0, sharp_1.default)("./assets/full/".concat(query.filename, ".jpg"))
-                    .resize(width, height)
-                    .toFile("./assets/thumb/".concat(query.filename, "w").concat(query.width, "h").concat(query.height, "output.jpg"))];
+            case 2: return [4 /*yield*/, sharper(String(query), width, height)];
             case 3:
                 _a.sent();
                 next();

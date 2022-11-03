@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import supertest from 'supertest'
 import { app } from '../index'
-import { resize, formated } from '../controllers/imageController'
+import { resize, formated, sharper } from '../controllers/imageController'
 import fs from 'fs'
+import sizeOf from 'image-size'
 
 const req = supertest(app)
 describe('test end point', () => {
@@ -17,9 +18,17 @@ describe('functionality test', () => {
 
         fs.readFile(`./assets/thumb/fjordw200h300output.jpg`, async function (data: unknown) {
             const datat = data
-            console.log(datat)
-            console.log((await res).body)
+
             expect((await res).body).toBe(datat)
         })
+    })
+    it('check if image is resized properly', async () => {
+        await sharper('encenadaport', 200, 250)
+
+        const dimension = sizeOf(`./assets/thumb/encenadaportw200h250output.jpg`).width
+        if (dimension !== undefined) {
+            expect(dimension).toBe(200)
+        }
+        //    else expect(true).toBe(false);
     })
 })

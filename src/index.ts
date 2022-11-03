@@ -1,7 +1,7 @@
 import express from 'express'
 import { router } from './Routes/imageRoute'
 const app = express()
-const port = 3000
+const port = 8080
 app.get('/', (req: express.Request, res: express.Response) => {
     res.send('home page')
 })
